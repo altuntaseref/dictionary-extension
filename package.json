@@ -1,0 +1,21 @@
+{
+  "name": "dictionary-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync-env": "node scripts/sync-env.mjs",
+    "dev": "npm run sync-env && wrangler dev",
+    "build": "wrangler build",
+    "deploy": "wrangler deploy",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "wrangler": "^3.78.7"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.46.1"
+  }
+}
+

@@ -1,0 +1,341 @@
+{
+	"info": {
+		"_postman_id": "dictionary-backend-collection",
+		"name": "Dictionary Backend API",
+		"description": "Chrome extension ve web uygulaması için backend API collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/health",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"health"
+					]
+				},
+				"description": "Backend sağlık kontrolü endpoint'i. Auth gerektirmez."
+			},
+			"response": []
+		},
+		{
+			"name": "Translate - English to Turkish",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"word\": \"capture\",\n  \"target_lang\": \"Turkish\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/translate",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"translate"
+					]
+				},
+				"description": "Kelime çevirisi yapar ve veritabanına kaydeder. İngilizce → Türkçe örneği."
+			},
+			"response": []
+		},
+		{
+			"name": "Translate - Turkish to English",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"word\": \"yakalamak\",\n  \"source_lang\": \"Turkish\",\n  \"target_lang\": \"English\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/translate",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"translate"
+					]
+				},
+				"description": "Türkçe → İngilizce çeviri örneği."
+			},
+			"response": []
+		},
+		{
+			"name": "Translate - Auto Detect",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"word\": \"Freundschaft\",\n  \"target_lang\": \"Spanish\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/translate",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"translate"
+					]
+				},
+				"description": "Kaynak dil otomatik tespit edilir, hedef dil belirtilir. Almanca → İspanyolca örneği."
+			},
+			"response": []
+		},
+		{
+			"name": "Example - English",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"word\": \"capture\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/example",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"example"
+					]
+				},
+				"description": "İngilizce örnek cümleler üretir (varsayılan). Önce translate ile kelime kaydedilmiş olmalı."
+			},
+			"response": []
+		},
+		{
+			"name": "Example - Turkish",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"word\": \"yakalamak\",\n  \"target_lang\": \"Turkish\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/example",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"example"
+					]
+				},
+				"description": "Türkçe örnek cümleler üretir."
+			},
+			"response": []
+		},
+		{
+			"name": "Example - German",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"word\": \"Freundschaft\",\n  \"target_lang\": \"German\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/example",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"example"
+					]
+				},
+				"description": "Almanca örnek cümleler üretir."
+			},
+			"response": []
+		},
+		{
+			"name": "Export - JSON",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/export?format=json",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"export"
+					],
+					"query": [
+						{
+							"key": "format",
+							"value": "json",
+							"description": "Export formatı: json veya csv"
+						}
+					]
+				},
+				"description": "Kullanıcının tüm kelimelerini JSON formatında döndürür."
+			},
+			"response": []
+		},
+		{
+			"name": "Export - CSV",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/export?format=csv",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"export"
+					],
+					"query": [
+						{
+							"key": "format",
+							"value": "csv",
+							"description": "Export formatı: json veya csv"
+						}
+					]
+				},
+				"description": "Kullanıcının tüm kelimelerini CSV formatında döndürür."
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8787",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string",
+			"description": "Supabase'den alınan JWT access token. Örnek: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+		}
+	]
+}
+

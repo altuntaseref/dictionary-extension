@@ -14,30 +14,63 @@ export async function generateMeaning(
     return result.trim().replace(/^"|"$/g, "");
 }
 
+export interface ExampleWithTranslation {
+    sentence: string;
+    translation: string;
+}
+
 export async function generateExamples(
     word: string,
     env: Env,
-    options?: { targetLang?: string }
-): Promise<string[]> {
+    options?: { targetLang?: string; translationLang?: string }
+): Promise<ExampleWithTranslation[]> {
     const targetLang = options?.targetLang?.trim() || "English";
+    const translationLang = options?.translationLang?.trim() || "Turkish";
+    
     const prompt = `Generate exactly 2 natural-sounding example sentences in ${targetLang} using the word or phrase "${word}".\nReturn ONLY a JSON array of exactly 2 strings, nothing else. Example format: ["Sentence 1.", "Sentence 2."]`;
     const result = await callOpenAI(prompt, env);
+    
+    let sentences: string[] = [];
     try {
         // Try to extract JSON array from response
         const jsonMatch = result.match(/\[.*?\]/s);
         if (jsonMatch) {
             const parsed = JSON.parse(jsonMatch[0]);
             if (Array.isArray(parsed)) {
-                return parsed.map(String).slice(0, 2);
+                sentences = parsed.map(String).slice(0, 2);
             }
         }
     } catch {}
+    
     // Fallback: split lines and take first 2
-    return result
-        .split(/\n+/)
-        .map((s) => s.trim().replace(/^[-•\d.]+\s*/, ""))
-        .filter((s) => s.length > 0 && !s.match(/^(sentence|example)/i))
-        .slice(0, 2);
+    if (sentences.length === 0) {
+        sentences = result
+            .split(/\n+/)
+            .map((s) => s.trim().replace(/^[-•\d.]+\s*/, ""))
+            .filter((s) => s.length > 0 && !s.match(/^(sentence|example)/i))
+            .slice(0, 2);
+    }
+
+    // Generate translations for each sentence
+    const examplesWithTranslations: ExampleWithTranslation[] = [];
+    for (const sentence of sentences) {
+        try {
+            const translationPrompt = `Translate the following ${targetLang} sentence into ${translationLang}. Answer ONLY with the translation (no quotes, no extra text):\n"${sentence}"`;
+            const translation = await callOpenAI(translationPrompt, env);
+            examplesWithTranslations.push({
+                sentence: sentence.trim(),
+                translation: translation.trim().replace(/^"|"$/g, ""),
+            });
+        } catch (error) {
+            // If translation fails, still include the sentence without translation
+            examplesWithTranslations.push({
+                sentence: sentence.trim(),
+                translation: "",
+            });
+        }
+    }
+
+    return examplesWithTranslations;
 }
 
 async function callOpenAI(prompt: string, env: Env): Promise<string> {
@@ -90,5 +123,4 @@ async function callOpenAI(prompt: string, env: Env): Promise<string> {
     const content = data.content?.[0]?.text ?? "";
     return content;
 }
-
 

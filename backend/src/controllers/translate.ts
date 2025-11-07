@@ -1,11 +1,19 @@
 import type { Env } from "../index";
 import { requireAuth } from "../middleware/auth";
+import { checkPlanLimit } from "../middleware/planCheck";
 import { getServiceClient } from "../services/supabase";
 import { generateMeaning } from "../services/llm";
 
 export async function handleTranslate(request: Request, env: Env): Promise<Response> {
     try {
         const { userId } = await requireAuth(request, env);
+        
+        // Check plan limit
+        const planCheck = await checkPlanLimit(userId, env, "add_word");
+        if (!planCheck.allowed) {
+            return jsonError(403, "plan_limit_exceeded", planCheck.message || "Plan limit exceeded");
+        }
+        
         const body = await request.json().catch(() => ({}));
         const word = typeof body?.word === "string" ? body.word.trim() : "";
         const sourceLang = typeof body?.source_lang === "string" ? body.source_lang.trim() : undefined;
@@ -40,5 +48,3 @@ function json(data: unknown, init: ResponseInit = {}): Response {
 function jsonError(status: number, code: string, message: string): Response {
     return json({ error: { code, message } }, { status });
 }
-
-

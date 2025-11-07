@@ -9,6 +9,7 @@ export async function handleExample(request: Request, env: Env): Promise<Respons
         const body = await request.json().catch(() => ({}));
         const word = typeof body?.word === "string" ? body.word.trim() : "";
         const targetLang = typeof body?.target_lang === "string" ? body.target_lang.trim() : undefined;
+        const translationLang = typeof body?.translation_lang === "string" ? body.translation_lang.trim() : undefined;
         if (!word) {
             return jsonError(400, "invalid_request", "'word' is required");
         }
@@ -16,7 +17,7 @@ export async function handleExample(request: Request, env: Env): Promise<Respons
         const supabase = getServiceClient(env);
         const { data, error: findErr } = await supabase
             .from("words")
-            .select("id, examples")
+            .select("id, examples, meaning")
             .eq("user_id", userId)
             .eq("word", word)
             .limit(1)
@@ -24,8 +25,19 @@ export async function handleExample(request: Request, env: Env): Promise<Respons
         if (findErr) return jsonError(500, "db_error", findErr.message);
         if (!data) return jsonError(404, "not_found", "Word not found");
 
-        const examples = await generateExamples(word, env, { targetLang });
-        const merged = Array.isArray(data.examples) ? [...data.examples, ...examples] : examples;
+        // Determine translation language from meaning if not provided
+        // If meaning is in Turkish, translation should be Turkish, etc.
+        const finalTranslationLang = translationLang || "Turkish";
+
+        const examples = await generateExamples(word, env, { 
+            targetLang: targetLang || "English",
+            translationLang: finalTranslationLang 
+        });
+        
+        // Merge with existing examples, handling both old format (strings) and new format (objects)
+        const existingExamples = Array.isArray(data.examples) ? data.examples : [];
+        const merged = [...existingExamples, ...examples];
+        
         const { error: updErr } = await supabase
             .from("words")
             .update({ examples: merged })
@@ -49,5 +61,4 @@ function json(data: unknown, init: ResponseInit = {}): Response {
 function jsonError(status: number, code: string, message: string): Response {
     return json({ error: { code, message } }, { status });
 }
-
 

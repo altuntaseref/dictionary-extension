@@ -17,6 +17,7 @@ export interface WordRow {
     examples: unknown | null;
     notes: string | null;
     created_at: string;
+    group_id: string | null;
 }
 
 

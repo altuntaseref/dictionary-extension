@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WordBook - A Personal Dictionary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#6A7B5E",
+                        "background-light": "#F5F5F5",
+                        "background-dark": "#1b1c16",
+                        "sage": "#BFAE99",
+                        "drab-dark-brown": "#3E3B32",
+                        "umber": "#6B5B53",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-drab-dark-brown dark:text-gray-200">
+<div class="flex min-h-screen">
+<aside class="w-72 bg-white dark:bg-gray-800 border-r border-sage/30 dark:border-gray-700 flex flex-col p-4 shrink-0">
+<div class="flex flex-col gap-4 flex-grow">
+<a class="flex items-center gap-3 px-2 mb-4" href="#">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="WordBook logo featuring an open book" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDHsP6QYjnrjH6hC4srqqu7dEnv6UKnbHkUkpjlf9ht-rfgnjoYtI_p6D0DBFe5zU2n28r2cK11XT9zT-2_0tO9yoUmMA6rRtczVyHewEGKs5TvMHXBKFl8tNThrerqnGc82y-ZX9e6N0itNMr8c-5U_LzWODwMqAunCUHou1sCmN1vJq8EgUOfRNC2f6BJYVtA23Q_QpMdnhkQkLFOIv9OWvQgS_6wjvZq0LIaHIjyjtBoA2D5S2CE1KV3iJ4XGVIdLa8YYRBVrqc");'></div>
+<div class="flex flex-col">
+<h1 class="text-drab-dark-brown dark:text-white text-base font-medium leading-normal">WordBook</h1>
+<p class="text-umber dark:text-gray-400 text-sm font-normal leading-normal">My Dictionary</p>
+</div>
+</a>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 dark:bg-primary/30" href="#">
+<span class="material-symbols-outlined text-primary dark:text-primary-300">book</span>
+<p class="text-drab-dark-brown dark:text-white text-sm font-medium leading-normal">Word Library</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" href="#">
+<span class="material-symbols-outlined text-umber dark:text-gray-400">exercise</span>
+<p class="text-drab-dark-brown dark:text-gray-300 text-sm font-medium leading-normal">Exercises</p>
+</a>
+</nav>
+</div>
+<div class="mt-auto pt-4 border-t border-sage/30 dark:border-gray-700">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center text-sm font-semibold text-white rounded-full size-9 bg-umber">JD</div>
+<div>
+<p class="text-sm font-medium text-drab-dark-brown dark:text-white">Jane Doe</p>
+</div>
+</div>
+<button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
+<span class="material-symbols-outlined text-umber dark:text-gray-400">settings</span>
+</button>
+</div>
+</div>
+</aside>
+<main class="flex-1 p-6 lg:p-10">
+<div class="w-full max-w-6xl mx-auto">
+<div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+<h1 class="text-drab-dark-brown dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Word Library</h1>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90">
+<span class="material-symbols-outlined mr-2 text-base">add</span>
+<span class="truncate">Add New Word</span>
+</button>
+</div>
+<div class="flex items-center justify-between gap-4 mb-6">
+<h2 class="text-2xl font-bold text-drab-dark-brown dark:text-white tracking-[-0.02em]">My Word Groups</h2>
+<div class="flex items-center gap-2">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-transparent text-drab-dark-brown dark:text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-sage/20 border border-sage/50">
+<span class="material-symbols-outlined mr-2 text-base">ios_share</span>
+<span class="truncate">Export</span>
+<span class="material-symbols-outlined ml-1.5 text-base text-amber-500">star</span>
+</button>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-sage/80 text-drab-dark-brown dark:text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-sage">
+<span class="truncate">Create New Group</span>
+</button>
+</div>
+</div>
+<div class="space-y-6">
+<div class="bg-white border rounded-lg dark:bg-gray-800 border-sage/30 dark:border-gray-700 overflow-hidden">
+<div class="flex flex-wrap items-center justify-between p-4 gap-4 bg-sage/10 dark:bg-sage/20">
+<h3 class="text-lg font-semibold text-drab-dark-brown dark:text-white">Spanish Vocabulary</h3>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+<span class="material-symbols-outlined text-sage text-xl">edit</span>
+</button>
+<button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+<span class="material-symbols-outlined text-umber text-xl">delete</span>
+</button>
+<button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+<span class="material-symbols-outlined text-drab-dark-brown dark:text-gray-300 text-xl transform rotate-180">expand_less</span>
+</button>
+</div>
+</div>
+<div class="divide-y divide-sage/20 dark:divide-gray-700/50">
+<div class="p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div>
+<h4 class="font-semibold text-drab-dark-brown dark:text-white">Hola</h4>
+<p class="text-sm text-umber dark:text-gray-400">Hello</p>
+</div>
+<div class="flex items-center gap-4 ml-auto">
+<button class="flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80">
+<span class="material-symbols-outlined text-base">auto_awesome</span>
+<span>Generate example sentences</span>
+<span class="material-symbols-outlined ml-1.5 text-base text-amber-500">star</span>
+</button>
+<button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+<span class="material-symbols-outlined text-sage">edit</span>
+</button>
+<button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+<span class="material-symbols-outlined text-umber">delete</span>
+</button>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-sage/20 dark:border-gray-700/50">
+<ul class="space-y-3 text-sm text-drab-dark-brown dark:text-gray-300">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-base text-sage mt-0.5">format_quote</span>
+<div>
+<p><strong class="font-semibold text-primary/80 dark:text-primary/90">Hola</strong>, ¿cómo estás?</p>
+<p class="text-xs text-umber dark:text-gray-500">Hello, how are you?</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-base text-sage mt-0.5">format_quote</span>
+<div>
+<p>Siempre digo <strong class="font-semibold text-primary/80 dark:text-primary/90">hola</strong> cuando entro a la tienda.</p>
+<p class="text-xs text-umber dark:text-gray-500">I always say hello when I enter the store.</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="flex flex-wrap items-center justify-between p-4 gap-4 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+<div>
+<h4 class="font-semibold text-drab-dark-brown dark:text-white">Gracias</h4>
+<p class="text-sm text-umber dark:text-gray-400">Thank you</p>
+</div>
+<div class="flex items-center gap-4 ml-auto">
+<button class="flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80">
+<span class="material-symbols-outlined text-base">auto_awesome</span>
+<span>Generate example sentences</span>
+<span class="material-symbols-outlined ml-1.5 text-base text-amber-500">star</span>
+</button>
+<button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+<span class="material-symbols-outlined text-sage">edit</span>
+</button>
+<button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+<span class="material-symbols-outlined text-umber">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white border rounded-lg dark:bg-gray-800 border-sage/30 dark:border-gray-700 overflow-hidden">
+<div class="flex flex-wrap items-center justify-between p-4 gap-4 bg-sage/10 dark:bg-sage/20">
+<h3 class="text-lg font-semibold text-drab-dark-brown dark:text-white">Technical Jargon</h3>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+<span class="material-symbols-outlined text-sage text-xl">edit</span>
+</button>
+<button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+<span class="material-symbols-outlined text-umber text-xl">delete</span>
+</button>
+<button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+<span class="material-symbols-outlined text-drab-dark-brown dark:text-gray-300 text-xl">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-white border rounded-lg dark:bg-gray-800 border-sage/30 dark:border-gray-700 overflow-hidden">
+<div class="flex flex-wrap items-center justify-between p-4 gap-4 bg-sage/10 dark:bg-sage/20">
+<h3 class="text-lg font-semibold text-drab-dark-brown dark:text-white">Words for My Novel</h3>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+<span class="material-symbols-outlined text-sage text-xl">edit</span>
+</button>
+<button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+<span class="material-symbols-outlined text-umber text-xl">delete</span>
+</button>
+<button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+<span class="material-symbols-outlined text-drab-dark-brown dark:text-gray-300 text-xl">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

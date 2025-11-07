@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { api } from '../lib/api';
-import { supabase } from '../lib/supabase';
+import Layout from '../components/Layout';
 import WordCard from '../components/WordCard';
-import AddWordModal from '../components/AddWordModal';
 
 export default function Dashboard() {
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const [words, setWords] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [exporting, setExporting] = useState(false);
+  const [stats, setStats] = useState({ total: 0, recent: 0 });
 
   useEffect(() => {
     loadWords();
@@ -21,129 +18,93 @@ export default function Dashboard() {
     try {
       setLoading(true);
       const data = await api.export('json');
-      setWords(data.words || []);
+      const wordsList = data.words || [];
+      setWords(wordsList);
+      
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+      const recent = wordsList.filter(w => new Date(w.created_at) > sevenDaysAgo).length;
+      
+      setStats({
+        total: wordsList.length,
+        recent,
+      });
     } catch (error) {
-      console.error('Kelimeler yüklenemedi:', error);
+      console.error('Failed to load words:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleExport = async (format) => {
-    try {
-      setExporting(true);
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8787'}/api/export?format=${format}`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('supabase.auth.token')}`,
-        },
-      });
-      
-      if (!response.ok) throw new Error('Export failed');
-      
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `words.${format}`;
-      a.click();
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      alert('Export hatası: ' + error.message);
-    } finally {
-      setExporting(false);
-    }
-  };
-
-  const filteredWords = words.filter((word) =>
-    word.word.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    word.meaning?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const recentWords = words
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    .slice(0, 8);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <h1 className="text-xl font-bold text-gray-800">Dictionary App</h1>
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-600">{user?.email}</span>
-              <button
-                onClick={signOut}
-                className="px-4 py-2 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition"
-              >
-                Çıkış
-              </button>
-            </div>
-          </div>
+    <Layout>
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-4xl font-black text-drab-dark-brown mb-2 tracking-[-0.033em]">Dashboard</h1>
+          <p className="text-base text-umber">Welcome back! Here's your vocabulary overview.</p>
         </div>
-      </nav>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-6 flex flex-col sm:flex-row gap-4 items-center justify-between">
-          <div className="flex-1 w-full sm:max-w-md">
-            <input
-              type="text"
-              placeholder="Kelime veya anlam ara..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-            />
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          <div className="bg-white rounded-lg border border-sage/30 p-6">
+            <div className="flex items-center justify-between mb-3">
+              <div className="text-sm text-umber font-medium">Total Words</div>
+              <span className="material-symbols-outlined text-2xl text-sage">book</span>
+            </div>
+            <div className="text-4xl font-black text-drab-dark-brown">{stats.total}</div>
           </div>
-          <div className="flex gap-2">
-            <button
-              onClick={() => setShowAddModal(true)}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium"
-            >
-              + Kelime Ekle
-            </button>
-            <div className="flex gap-2">
-              <button
-                onClick={() => handleExport('json')}
-                disabled={exporting}
-                className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition font-medium disabled:opacity-50 text-sm"
-              >
-                {exporting ? '...' : 'JSON'}
-              </button>
-              <button
-                onClick={() => handleExport('csv')}
-                disabled={exporting}
-                className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition font-medium disabled:opacity-50 text-sm"
-              >
-                {exporting ? '...' : 'CSV'}
-              </button>
+          
+          <div className="bg-white rounded-lg border border-sage/30 p-6">
+            <div className="flex items-center justify-between mb-3">
+              <div className="text-sm text-umber font-medium">Added This Week</div>
+              <span className="material-symbols-outlined text-2xl text-sage">calendar_today</span>
+            </div>
+            <div className="text-4xl font-black text-drab-dark-brown">{stats.recent}</div>
+          </div>
+          
+          <div className="bg-white rounded-lg border border-sage/30 p-6">
+            <div className="flex items-center justify-between mb-3">
+              <div className="text-sm text-umber font-medium">Examples Generated</div>
+              <span className="material-symbols-outlined text-2xl text-sage">auto_awesome</span>
+            </div>
+            <div className="text-4xl font-black text-drab-dark-brown">
+              {words.reduce((acc, w) => acc + (Array.isArray(w.examples) ? w.examples.length : 0), 0)}
             </div>
           </div>
         </div>
 
-        {loading ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500">Yükleniyor...</p>
+        {/* Recent Words */}
+        <div>
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-bold text-drab-dark-brown tracking-[-0.02em]">Recent Words</h2>
+              <p className="text-sm text-umber mt-1">Your latest vocabulary additions</p>
+            </div>
+            <a href="/words" className="text-sm text-primary hover:text-primary/80 font-medium">
+              View all →
+            </a>
           </div>
-        ) : filteredWords.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500">
-              {searchTerm ? 'Arama sonucu bulunamadı' : 'Henüz kelime eklenmemiş'}
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredWords.map((word) => (
-              <WordCard key={word.id} word={word} onUpdate={loadWords} />
-            ))}
-          </div>
-        )}
+          
+          {loading ? (
+            <div className="text-center py-16 text-umber">Loading...</div>
+          ) : recentWords.length === 0 ? (
+            <div className="bg-white rounded-lg border border-sage/30 p-16 text-center">
+              <p className="text-umber mb-4">No words yet. Start by adding your first word!</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {recentWords.map((word) => (
+                <WordCard key={word.id} word={word} onUpdate={loadWords} />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-
-      {showAddModal && (
-        <AddWordModal
-          onClose={() => setShowAddModal(false)}
-          onSuccess={() => {
-            setShowAddModal(false);
-            loadWords();
-          }}
-        />
-      )}
-    </div>
+    </Layout>
   );
 }
-

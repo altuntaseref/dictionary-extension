@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login - Lexicon</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#777B5D", // reseda-green
+              "background-light": "#F5F5F5", // white-smoke
+              "background-dark": "#1b1c16",
+              "panel-light": "#F0EDE2", // A light sage-like color derived from the palette for better contrast
+              "panel-dark": "#2a281e",
+              "text-primary": "#4E4B3C", // drab-dark-brown
+              "text-secondary": "#665849", // umber
+              "border-color": "#D3D1C7",
+              "focus-ring": "#665849" // umber
+            },
+            fontFamily: {
+              "display": ["Lexend", "sans-serif"]
+            },
+            borderRadius: {
+              "DEFAULT": "0.25rem",
+              "lg": "0.5rem",
+              "xl": "0.75rem",
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+<style>
+      body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-primary dark:text-gray-200">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-4 flex flex-1 justify-center items-center py-5">
+<div class="layout-content-container flex flex-col w-full max-w-[420px] flex-1">
+<div class="flex flex-col items-center justify-center gap-2 p-8 sm:p-10 rounded-xl bg-panel-light dark:bg-panel-dark border border-border-color dark:border-gray-700">
+<!-- Logo -->
+<div class="flex items-center gap-2 pb-4">
+<span class="material-symbols-outlined text-primary dark:text-primary-light text-3xl">translate</span>
+<span class="text-2xl font-bold text-text-primary dark:text-gray-100">Lexicon</span>
+</div>
+<!-- HeadlineText -->
+<h1 class="text-text-primary dark:text-gray-100 tracking-light text-[32px] font-bold leading-tight text-center pb-4">Welcome Back</h1>
+<!-- Form Fields Container -->
+<div class="flex w-full flex-col items-stretch gap-4">
+<!-- TextField for Username/Email -->
+<div class="flex flex-wrap items-end w-full">
+<label class="flex flex-col w-full flex-1">
+<p class="text-text-primary dark:text-gray-300 text-base font-medium leading-normal pb-2">Username or Email</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-primary dark:text-gray-100 dark:bg-panel-dark focus:outline-0 focus:ring-2 focus:ring-offset-2 focus:ring-offset-panel-light dark:focus:ring-offset-panel-dark focus:ring-focus-ring border border-border-color dark:border-gray-600 bg-white focus:border-focus-ring h-14 placeholder:text-text-secondary/70 p-[15px] text-base font-normal leading-normal" placeholder="Enter your username or email" value=""/>
+</label>
+</div>
+<!-- TextField for Password -->
+<div class="flex flex-wrap items-end w-full">
+<label class="flex flex-col w-full flex-1">
+<div class="flex justify-between items-baseline">
+<p class="text-text-primary dark:text-gray-300 text-base font-medium leading-normal pb-2">Password</p>
+<!-- MetaText for Forgot Password -->
+<a class="text-text-secondary dark:text-amber-200 text-sm font-normal leading-normal hover:underline" href="#">Forgot Password?</a>
+</div>
+<div class="flex w-full flex-1 items-stretch">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-l-lg text-text-primary dark:text-gray-100 dark:bg-panel-dark focus:outline-0 focus:ring-2 focus:ring-offset-2 focus:ring-offset-panel-light dark:focus:ring-offset-panel-dark focus:ring-focus-ring border border-border-color dark:border-gray-600 bg-white focus:border-focus-ring h-14 placeholder:text-text-secondary/70 p-[15px] pr-2 text-base font-normal leading-normal border-r-0" placeholder="Enter your password" type="password" value=""/>
+<button class="text-text-secondary dark:text-gray-400 flex border border-border-color dark:border-gray-600 bg-white dark:bg-panel-dark items-center justify-center px-4 rounded-r-lg border-l-0 hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-0 focus:ring-2 focus:ring-offset-2 focus:ring-offset-panel-light dark:focus:ring-offset-panel-dark focus:ring-focus-ring">
+<span class="material-symbols-outlined" style="font-size: 24px;">visibility</span>
+</button>
+</div>
+</label>
+</div>
+</div>
+<!-- Primary Button -->
+<div class="w-full pt-6">
+<button class="flex h-14 w-full items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-base font-bold text-white shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-focus-ring focus:ring-offset-2 dark:focus:ring-offset-panel-dark">
+                                Log In
+                            </button>
+</div>
+<!-- Footer Link -->
+<div class="pt-6 text-center">
+<p class="text-text-secondary dark:text-gray-400 text-sm font-normal">
+                                Don't have an account? <a class="font-bold hover:underline text-text-secondary dark:text-amber-200" href="#">Sign Up</a>
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>
